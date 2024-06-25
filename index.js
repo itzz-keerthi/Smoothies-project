@@ -1,13 +1,14 @@
 const express=require('express');
 const mongoose=require('mongoose');
+const authRoutes=require('./routes/authRoutes');
 
 const app=express();
 const PORT = process.env.PORT || 3000;
 app.use(express.static('public'));
 
 
-const dbURI='mongodb+srv://keerthi:LI9zaquHUhxOMarA@cluster0.han2cbd.mongodb.net/node-auth'
-mongoose.connect(dbURI,{
+require('dotenv').config();
+mongoose.connect(process.env.dbURI,{
     useNewUrlParser:true,
     useUnifiedTopology:true,
 }).then(()=>{
@@ -25,3 +26,5 @@ app.get('/smoothies',(req,res)=>res.render('smoothies'));
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
+
+app.use(authRoutes);
